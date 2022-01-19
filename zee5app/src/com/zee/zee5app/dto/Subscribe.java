@@ -1,9 +1,8 @@
-package com.zee.zee5app.subscriptions.dto;
+package com.zee.zee5app.dto;
 
 import lombok.Data;
 
 @Data
-
 public class Subscribe {
 	private String subId;
 	private String type;
@@ -11,5 +10,4 @@ public class Subscribe {
 	private String status;
 	private String country;
 	private String paymentMethod;
-
 }

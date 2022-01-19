@@ -1,8 +1,7 @@
-package com.zee.zee5app.subscriptions.repository;
+package com.zee.zee5app.repository;
 
 import com.zee.zee5app.dto.Register;
 import com.zee.zee5app.repository.UserRepository;
-import com.zee.zee5app.subscriptions.dto.Subscribe;
 
 import lombok.Data;
 
@@ -60,3 +59,4 @@ public class subRepository {
 		return subRepo;
 	}
 }
+

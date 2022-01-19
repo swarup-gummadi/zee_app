@@ -1,7 +1,7 @@
-package com.zee.zee5app.subscriptions.service;
+package com.zee.zee5app.service;
 
-import com.zee.zee5app.subscriptions.dto.Subscribe;
-import com.zee.zee5app.subscriptions.repository.subRepository;
+import com.zee.zee5app.dto.Subscribe;
+import com.zee.zee5app.repository.subRepository;
 
 import lombok.Data;
 

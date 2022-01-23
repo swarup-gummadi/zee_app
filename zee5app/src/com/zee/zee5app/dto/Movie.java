@@ -3,7 +3,7 @@ package com.zee.zee5app.dto;
 import lombok.Data;
 
 @Data
-public class Movies {
+public class Movie {
 	private String movieName;
 	private String movieCategory;
 	private String movieReleaseDate;

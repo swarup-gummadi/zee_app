@@ -1,6 +1,6 @@
 package com.zee.zee5app.repository;
 
-import java.util.Iterator;
+//import java.util.Iterator;
 
 import com.zee.zee5app.dto.Register;
 //import com.zee.zee5app.service.UserService;
@@ -28,7 +28,7 @@ public class UserRepository {
 		return registers;
 	}
 	
-	//update user credentials
+	//update user details
 	public String updateUser(String id, Register register) {
 		for (int c=0;c<registers.length;c++) {
 			if (registers[c]!=null && registers[c].getId().equals(id)) {
@@ -71,4 +71,6 @@ public class UserRepository {
 			userRepository = new UserRepository();
 		return userRepository;
 	}
+	
+	
 }

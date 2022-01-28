@@ -29,7 +29,7 @@ public class Register implements Comparable<Register>
 			throws InvalidIdLengthException, InvalidNameException {
 		super();
 		this.setId(id);
-		this.setFirstName(firstName);//
+		this.setFirstName(firstName);
 		this.setLastName(lastName);
 		this.email = email;
 		this.password = password;

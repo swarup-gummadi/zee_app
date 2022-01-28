@@ -30,6 +30,7 @@ public class Register implements Comparable<Register>
 		super();
 		this.setId(id);
 		this.setFirstName(firstName);
+		
 		this.setLastName(lastName);
 		this.email = email;
 		this.password = password;

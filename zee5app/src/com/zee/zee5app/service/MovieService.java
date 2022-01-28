@@ -10,7 +10,7 @@ import com.zee.zee5app.dto.Movie;
 public interface MovieService {
 	
 	public String addMovie(Movie movie);
-	public String updateMovie(String id, Movie movie);
+	public String updateMovie(String id, Movie movie) throws IdNotFoundException;
 	public Optional<Movie> getMovieById(String id) throws IdNotFoundException;
 	public Movie[] getAllMovies();
 	public String deleteMovieById(String id) throws IdNotFoundException;

@@ -1,14 +1,23 @@
 package com.zee.zee5app.repository.impl;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.TreeSet;
 
-import com.zee.zee5app.dto.Register;
 import com.zee.zee5app.dto.Series;
 import com.zee.zee5app.exception.IdNotFoundException;
 import com.zee.zee5app.repository.SeriesRepository;
 
 public class SeriesRepositoryImpl implements SeriesRepository {
+private SeriesRepositoryImpl() {
+		
+	}
 	private static SeriesRepository repository;
 	public static SeriesRepository getInstance() {
 		if(repository==null) {
@@ -16,57 +25,58 @@ public class SeriesRepositoryImpl implements SeriesRepository {
 		}
 		return repository;
 	}
-	private TreeSet<Series> seriess = new TreeSet();
-	private static int count = -1;
+	
+	private TreeSet<Series> set = new TreeSet<>();
 
 	@Override
 	public String addSeries(Series series) {
 		// TODO Auto-generated method stub
-		boolean result= this.seriess.add(series);
-		if (result==true) {
-			return "Successfully added series";
-		}
-		return "Failed to add series";
-	}
-
-	@Override
-	public String updateSeries(String id, Series series1) {
-		// TODO Auto-generated method stub
-		/*
-		int count1 = 0;
-		for (Series series : seriess) {
-			if(series != null && series.getSeriesId().equals(id)) {
-				seriess[count1] = series1;
-				return("Completed");
-			}
-			count1++;
+		boolean result = this.set.add(series);
+		System.out.println(this.set.size());
+		if(result) {
 			
-		}
-		return("Not Completed");
-		*/
-		return null;
+		
+		return "success";}
+		
+	else {
+		return "fail";
 	}
+		}
+
+	
 
 	@Override
 	public Optional<Series> getSeriesById(String id) throws IdNotFoundException {
 		// TODO Auto-generated method stub
 		Series series2 = null;
-		for (Series series : seriess) {
-			if(series.getSeriesId().equals(id)) {
-				series2 = series;
+		for (Series series : set) {
+			if(series!=null && series.getSeries_id().equals(id)) {
+				series2 = series ;
 				break;
-				//return Optional.of(register);			
 			}
 		}
-		return Optional.of(Optional.ofNullable(series2).orElseThrow(() -> new IdNotFoundException("ID not found")));
+		return Optional.ofNullable(Optional.of(series2).orElseThrow(()-> new IdNotFoundException("id not found")));
+//		return Optional.of(Optional.ofNullable(series2).orElseThrow(()-> new IdNotFoundException("id not found")));
+//		if series is holding null it will act like empty
+//		if series is holding object if will act like of
 	}
 
 	@Override
 	public Series[] getAllSeriess() {
 		// TODO Auto-generated method stub
-		Series series[]= new Series[seriess.size()];
+		Series[] series = new Series[set.size()];
 		
-		return seriess.toArray(series);
+		return set.toArray(series);
+	}
+	
+	
+	
+	@Override
+	public List<Series> getAllSeriesDetails(){
+//		Collections.sort(set);
+//		return set;
+		
+		return new ArrayList<>(set.descendingSet());
 	}
 
 	@Override
@@ -74,19 +84,33 @@ public class SeriesRepositoryImpl implements SeriesRepository {
 		// TODO Auto-generated method stub
 		Optional<Series> optional = this.getSeriesById(id);
 		if(optional.isPresent()) {
-			//removal
-			boolean result = seriess.remove(optional.get());
-			if (result) {
-				return "Successfully deleted series";
-				
+			boolean result = set.remove(optional.get());
+			
+			if(result) {
+				return "Success";
 			}
-			else {
-				return "Failed to delete series";
-			}
+			else
+				return "fail";
 		}
+		return "fail";
 		
-		return("Fail");
+		
 	}
-	
+	@Override
+	public String updateSeries(String id, Series series) throws IdNotFoundException {
+		// TODO Auto-generated method stub
+		Optional<Series> optional = this.getSeriesById(id);
+		if(optional.isPresent()) {
+			boolean result = set.remove(optional.get());
+			set.add(series);
+			if(result) {
+				return "Success";
+			}
+			else
+				return "fail";
+			
+		}
+		return "fail";
+	}
 
 }

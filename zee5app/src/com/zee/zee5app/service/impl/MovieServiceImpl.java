@@ -26,7 +26,7 @@ public class MovieServiceImpl implements MovieService {
 	}
 
 	@Override
-	public String updateMovie(String id, Movie movie) {
+	public String updateMovie(String id, Movie movie) throws IdNotFoundException {
 		// TODO Auto-generated method stub
 		return movieRepository.updateMovie(id, movie);
 	}

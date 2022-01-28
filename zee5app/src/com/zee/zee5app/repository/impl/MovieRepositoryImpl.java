@@ -1,14 +1,23 @@
 package com.zee.zee5app.repository.impl;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.TreeSet;
 
 import com.zee.zee5app.dto.Movie;
-import com.zee.zee5app.dto.Register;
 import com.zee.zee5app.exception.IdNotFoundException;
 import com.zee.zee5app.repository.MovieRepository;
 
 public class MovieRepositoryImpl implements MovieRepository {
+private MovieRepositoryImpl() {
+		
+	}
 	private static MovieRepository repository;
 	public static MovieRepository getInstance() {
 		if(repository==null) {
@@ -16,58 +25,58 @@ public class MovieRepositoryImpl implements MovieRepository {
 		}
 		return repository;
 	}
-	private HashSet<Movie> movies = new HashSet();
-	//private static int count = -1;
+	
+	private Set<Movie> set = new LinkedHashSet<>();
 
 	@Override
 	public String addMovie(Movie movie) {
 		// TODO Auto-generated method stub
-		boolean result= this.movies.add(movie);
-		if (result==true) {
-			return "Successfully added user";
-		}
-		return "Failed to add user";
-	}
-
-	@Override
-	public String updateMovie(String id, Movie movie1) {
-		// TODO Auto-generated method stub
-		/*
-		int count1 = 0;
-		for (Movie movie : movies) {
-			if(movie != null && movie.getMovieId().equals(id)) {
-				movies[count1] = movie1;
-				return("Completed");
-			}
-			count1++;
+		boolean result = this.set.add(movie);
+		System.out.println(this.set.size());
+		if(result) {
 			
-		}
-		return("Not Completed");
-		*/
-		return null;
+		
+		return "success";}
+		
+	else {
+		return "fail";
 	}
+		}
+
+	
 
 	@Override
-	public Optional<Movie> getMovieById(String id) throws IdNotFoundException  {
+	public Optional<Movie> getMovieById(String id) throws IdNotFoundException {
 		// TODO Auto-generated method stub
 		Movie movie2 = null;
-		for (Movie movie : movies) {
-			if(movie.getMovieId().equals(id)) {
-				movie2 = movie;
+		for (Movie movie : set) {
+			if(movie!=null && movie.getMovie_id().equals(id)) {
+				movie2 = movie ;
 				break;
-				//return Optional.of(register);			
 			}
 		}
-			return Optional.of(Optional.ofNullable(movie2).orElseThrow(() -> new IdNotFoundException("ID not found")));
-		
+		return Optional.ofNullable(Optional.of(movie2).orElseThrow(()-> new IdNotFoundException("id not found")));
+//		return Optional.of(Optional.ofNullable(movie2).orElseThrow(()-> new IdNotFoundException("id not found")));
+//		if movie is holding null it will act like empty
+//		if movie is holding object if will act like of
 	}
 
 	@Override
 	public Movie[] getAllMovies() {
 		// TODO Auto-generated method stub
-		Movie movie[]= new Movie[movies.size()];
+		Movie[] movie = new Movie[set.size()];
 		
-		return movies.toArray(movie);
+		return set.toArray(movie);
+	}
+	
+	
+	
+	@Override
+	public List<Movie> getAllMovieDetails(){
+//		Collections.sort(set);
+//		return set;
+		
+		return new ArrayList<>(set);
 	}
 
 	@Override
@@ -75,23 +84,32 @@ public class MovieRepositoryImpl implements MovieRepository {
 		// TODO Auto-generated method stub
 		Optional<Movie> optional = this.getMovieById(id);
 		if(optional.isPresent()) {
-			//removal
-			boolean result = movies.remove(optional.get());
-			if (result) {
-				return "Successfully deleted Movie";
-				
+			boolean result = set.remove(optional.get());
+			
+			if(result) {
+				return "Success";
 			}
-			else {
-				return "Failed to delete Movie";
-			}
+			else
+				return "fail";
 		}
-		/*
-		 * else { //throw IdNotFoundException throw new
-		 * IdNotFoundException("id not found for deletion");
-		 * 
-		 * }
-		 */
+		return "fail";
 		
+		
+	}
+	@Override
+	public String updateMovie(String id, Movie movie) throws IdNotFoundException {
+		// TODO Auto-generated method stub
+		Optional<Movie> optional = this.getMovieById(id);
+		if(optional.isPresent()) {
+			boolean result = set.remove(optional.get());
+			set.add(movie);
+			if(result) {
+				return "Success";
+			}
+			else
+				return "fail";
+			
+		}
 		return "fail";
 	}
 

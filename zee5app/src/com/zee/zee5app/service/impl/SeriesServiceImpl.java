@@ -1,16 +1,17 @@
 package com.zee.zee5app.service.impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.zee.zee5app.dto.Series;
 import com.zee.zee5app.exception.IdNotFoundException;
 import com.zee.zee5app.repository.SeriesRepository;
 import com.zee.zee5app.repository.impl.SeriesRepositoryImpl;
-import com.zee.zee5app.service.seriesService;
+import com.zee.zee5app.service.SeriesService;
 
-public class SeriesServiceImpl implements seriesService {
-	private static seriesService service;
-	public static seriesService getInstance() {
+public class SeriesServiceImpl implements SeriesService {
+	private static SeriesService service;
+	public static SeriesService getInstance() {
 		if(service==null) {
 			service = new SeriesServiceImpl();
 		}
@@ -26,7 +27,7 @@ public class SeriesServiceImpl implements seriesService {
 	}
 
 	@Override
-	public String updateSeries(String id, Series series) {
+	public String updateSeries(String id, Series series) throws IdNotFoundException {
 		// TODO Auto-generated method stub
 		return seriesRepository.updateSeries(id, series);
 	}
@@ -46,6 +47,12 @@ public class SeriesServiceImpl implements seriesService {
 	public String deleteSeriesById(String id) throws IdNotFoundException {
 		// TODO Auto-generated method stub
 		return seriesRepository.deleteSeriesById(id);
+	}
+
+	@Override
+	public List<Series> getAllSeriesDetails() {
+		// TODO Auto-generated method stub
+		return seriesRepository.getAllSeriesDetails();
 	}
 
 

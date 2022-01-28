@@ -1,6 +1,10 @@
 package com.zee.zee5app.service.impl;
 
+import java.util.List;
+import java.util.Optional;
+
 import com.zee.zee5app.dto.Subscription;
+import com.zee.zee5app.exception.IdNotFoundException;
 import com.zee.zee5app.repository.SubscriptionRepository;
 import com.zee.zee5app.repository.impl.SubscriptionRepositoryImpl;
 import com.zee.zee5app.service.SubscriptionService;
@@ -29,13 +33,13 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 	}
 
 	@Override
-	public Subscription getSubscriptionById(String id) {
+	public Optional<Subscription> getSubscriptionById(String id) throws IdNotFoundException {
 		// TODO Auto-generated method stub
 		return subscriptionRepository.getSubscriptionById(id);
 	}
 
 	@Override
-	public Subscription[] getAllSubscriptions() {
+	public List<Subscription> getAllSubscriptions() {
 		return subscriptionRepository.getAllSubscriptions();
 	}
 

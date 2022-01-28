@@ -1,9 +1,17 @@
 package com.zee.zee5app.repository.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import com.zee.zee5app.dto.Subscription;
+import com.zee.zee5app.exception.IdNotFoundException;
 import com.zee.zee5app.repository.SubscriptionRepository;
 
 public class SubscriptionRepositoryImpl implements SubscriptionRepository {
+private SubscriptionRepositoryImpl() {
+		
+	}
 	private static SubscriptionRepository repository;
 	public static SubscriptionRepository getInstance() {
 		if(repository==null) {
@@ -11,71 +19,56 @@ public class SubscriptionRepositoryImpl implements SubscriptionRepository {
 		}
 		return repository;
 	}
-	private Subscription[] subscriptions = new Subscription[10];
-	private static int count = -1;
+	
+	private ArrayList<Subscription> arraylist = new ArrayList<>();
 
 	@Override
 	public String addSubscription(Subscription subscription) {
 		// TODO Auto-generated method stub
-		if(count == subscriptions.length-1) {
-			Subscription temp[] = new Subscription[subscriptions.length*2];
+		boolean result = this.arraylist.add(subscription);
+		if(result) {
 			
-			System.arraycopy(subscriptions, 0, temp, 0, subscriptions.length);
-			subscriptions = temp;
-			subscriptions[++count] = subscription;
-			return "array is full";
+		
+		return "success";}
+		
+	else {
+		return "fail";
+	}
 		}
-		subscriptions[++count] = subscription;
-		return "success";
+
+	@Override
+	public String updateSubscription(String id, Subscription subscription) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
-	public String updateSubscription(String id, Subscription subscription1) {
+	public Optional<Subscription> getSubscriptionById(String id) throws IdNotFoundException {
 		// TODO Auto-generated method stub
-		int count1 = 0;
-		for (Subscription subscription : subscriptions) {
-			if(subscription != null && subscription.getSub_id().equals(id)) {
-				subscriptions[count1] = subscription1;
-				return("Completed");
+		Subscription subscription2 = null;
+		for (Subscription subscription : arraylist) {
+			if(subscription!=null && subscription.getSub_id().equals(id)) {
+				subscription2 = subscription ;
 			}
-			count1++;
 			
 		}
-		return("Not Completed");
+		return Optional.ofNullable(Optional.of(subscription2).orElseThrow(()-> new IdNotFoundException("id not found")));
+//		if subscription is holding null it will act like empty
+//		if subscription is holding object if will act like of
 	}
 
 	@Override
-	public Subscription getSubscriptionById(String id) {
+	public List<Subscription> getAllSubscriptions() {
 		// TODO Auto-generated method stub
-		for (Subscription subscription : subscriptions) {
-			if(subscription!= null && subscription.getSub_id().equals(id)  ) {
-				return( subscription);
-			}
-		}
-		return(null);
-	}
-
-	@Override
-	public Subscription[] getAllSubscriptions() {
-		// TODO Auto-generated method stub
-		return subscriptions;
+		return arraylist;
+		
+		
 	}
 
 	@Override
 	public String deleteSubscriptionById(String id) {
 		// TODO Auto-generated method stub
-		int count1 = 0;
-		for (Subscription subscription : subscriptions) {
-			
-			if(subscription!= null && subscription.getSub_id().equals(id)  ) {
-				System.arraycopy(subscriptions, count1+1, subscriptions, count1, subscriptions.length-count1-1);
-				subscriptions[subscriptions.length-1] = null;
-				return("Completed");
-			}
-			count1++;
-		}
-		
-		return("Not Completed");
+		return null;
 	}
 
 }

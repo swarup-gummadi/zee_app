@@ -9,13 +9,5 @@ public class InvalidIdLengthException extends Exception {
 		super(message);
 		// TODO Auto-generated constructor stub
 	}
-	//Defined as an User Defined Exception
 
-	/*
-	@Override
-	public String toString() {
-		return "IdNotFoundException [toString()=" + super.toString() + "]";
-	}
-	*/
-	
 }

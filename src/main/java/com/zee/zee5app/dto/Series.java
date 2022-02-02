@@ -1,9 +1,21 @@
 package com.zee.zee5app.dto;
 
+import java.util.Date;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import com.zee.zee5app.exception.InvalidIdLengthException;
 import com.zee.zee5app.exception.InvalidNameException;
 
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,48 +27,37 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 @NoArgsConstructor
+@AllArgsConstructor
+
+@Entity
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = "name")})
 public class Series implements Comparable<Series> {
 	
-	public Series(String id, String name, int ageLimit, String trailer, String cast, String genre, float length,
-			String releaseDate, String language, int noOfEpisodes) throws InvalidIdLengthException, InvalidNameException {
-		super();
-		this.setId(id);
-		this.setName(name);
-		this.ageLimit = ageLimit;
-		this.trailer = trailer;
-		this.cast = cast;
-		this.genre = genre;
-		this.length = length;
-		this.releaseDate = releaseDate;
-		this.language = language;
-		this.noOfEpisodes = noOfEpisodes;
-	}
+	
 
 	@Setter(value = AccessLevel.NONE)
+	@Id
 	private String id;
+	@NotBlank
+	
 	@Setter(value = AccessLevel.NONE)
 	private String name;
+	@NotNull
+	@Max(value = 70)
 	private int ageLimit;
 	private String trailer;
+	@NotBlank
 	private String cast;
-	private String genre;
-	private float length;
-	private String releaseDate;
+	@NotBlank
+	private GENRE genre;
+	//private float length;
+	@NotNull
+	private Date releaseDate;
+	@NotBlank
 	private String language;
+	@Min(value = 1)
 	private int noOfEpisodes;
 	
-	public void setId(String id) throws InvalidIdLengthException {
-		if(id.length()<6) {
-			throw new InvalidIdLengthException("id length is less than 6");
-		}
-		this.id = id;
-	}
-	
-	public void setName(String name) throws InvalidNameException {
-		if(name==null || name=="" || name.length()<2)
-			throw new InvalidNameException("name is not valid");
-		this.name = name;
-	}
 	
 	@Override
 	public int compareTo(Series o) {

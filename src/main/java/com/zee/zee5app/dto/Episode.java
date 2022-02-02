@@ -1,5 +1,11 @@
 package com.zee.zee5app.dto;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,20 +17,19 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 @NoArgsConstructor
+@AllArgsConstructor
+
+@Entity
+@Table
 public class Episode implements Comparable<Episode> {
 	
-	public Episode(String id, String serId, String name, float length, String location, String trailer) {
-		super();
-		this.id = id;
-		this.serId = serId;
-		this.name = name;
-		this.length = length;
-		this.location = location;
-		this.trailer = trailer;
-	}
 
+	@Id
+	@NotBlank
 	private String id;
+	@NotBlank
 	private String serId;
+	@NotBlank
 	private String name;
 	private float length;
 	private String location;

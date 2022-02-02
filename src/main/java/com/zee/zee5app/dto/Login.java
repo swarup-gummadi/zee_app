@@ -1,5 +1,9 @@
 package com.zee.zee5app.dto;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,6 +15,9 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 @NoArgsConstructor
+
+@Entity
+@Table(name="login")
 public class Login implements Comparable<Login> {
 	
 	public Login(String username, String password, String regId, ROLE role) {
@@ -20,7 +27,7 @@ public class Login implements Comparable<Login> {
 		this.regId = regId;
 		this.role = role;
 	}
-	
+	@Id
 	private String username;
 	private String password;
 	private String regId;

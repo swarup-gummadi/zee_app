@@ -42,8 +42,8 @@ public class Movie implements Comparable<Movie>{
 	private int ageLimit;
 	@NotBlank
 	private String cast;
-	private GENRE genre;
-	private float length;
+	private String genre;
+	//private float length;
 	private String trailer;
 	private Date releaseDate;
 	private String language;

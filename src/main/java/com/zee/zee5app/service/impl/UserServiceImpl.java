@@ -7,32 +7,58 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.zee.zee5app.dto.Login;
+import com.zee.zee5app.dto.EROLE;
 import com.zee.zee5app.dto.Register;
+import com.zee.zee5app.exception.AlreadyExistsException;
 import com.zee.zee5app.exception.IdNotFoundException;
 import com.zee.zee5app.exception.InvalidEmailException;
 import com.zee.zee5app.exception.InvalidIdLengthException;
 import com.zee.zee5app.exception.InvalidNameException;
 import com.zee.zee5app.exception.InvalidPasswordException;
+import com.zee.zee5app.repository.LoginRepository;
 import com.zee.zee5app.repository.UserRepository;
+import com.zee.zee5app.service.LoginService;
 import com.zee.zee5app.service.UserService;
 
 @Service
 public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private LoginService loginService;
+	
+	
 	public UserServiceImpl() throws IOException {
 		// TODO Auto-generated constructor stub
 	}
 	
 	@Override
-	public String addUser(Register register) {
+	@org.springframework.transaction.annotation.Transactional(rollbackFor = AlreadyExistsException.class)
+	public String addUser(Register register) throws AlreadyExistsException {
 		// TODO Auto-generated method stub
+		//userRepository.findById(register.getId());
+		if (userRepository.existsByEmailAndContactNumber(register.getEmail(), register.getContactNumber())==true) {
+			throw new AlreadyExistsException("Already existing record");
+		}
+		
 		Register register2 = userRepository.save(register);
+		System.out.println(register2);
+		System.out.println("test");
 		if (register2!=null) {
-			return "Success";
+			System.out.println("Success");
+			Login login = new Login(register.getFirstName(), register.getPassword(), register.getId());
+			String res = loginService.addCredentials(login);
+			if(res!="success") {
+			return "Fail";
+			}
+			else {
+				return "Success";
+			}
 		}
 		else {
-			return "Fail";
+			return "fail";
 		}
 	}
 

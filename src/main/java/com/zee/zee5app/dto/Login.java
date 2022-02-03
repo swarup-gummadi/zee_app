@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,23 +16,24 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 @NoArgsConstructor
+@AllArgsConstructor
 
 @Entity
 @Table(name="login")
 public class Login implements Comparable<Login> {
 	
-	public Login(String username, String password, String regId, ROLE role) {
-		super();
-		this.username = username;
-		this.password = password;
-		this.regId = regId;
-		this.role = role;
-	}
+//	public Login(String username, String password, String regId, ROLE role) {
+//		super();
+//		this.username = username;
+//		this.password = password;
+//		this.regId = regId;
+//		this.role = role;
+//	}
 	@Id
 	private String username;
 	private String password;
 	private String regId;
-	private ROLE role;
+
 	
 	@Override
 	public int compareTo(Login o) {

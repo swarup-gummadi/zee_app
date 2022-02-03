@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.zee.zee5app.dto.Login;
-import com.zee.zee5app.dto.ROLE;
+import com.zee.zee5app.dto.EROLE;
 import com.zee.zee5app.dto.Register;
 import com.zee.zee5app.exception.IdNotFoundException;
 import com.zee.zee5app.exception.InvalidEmailException;
@@ -74,7 +74,7 @@ public class LoginServiceImpl implements LoginService {
 	}
 
 	@Override
-	public String changeRole(String username, ROLE role) {
+	public String changeRole(String username, EROLE role) {
 		// TODO Auto-generated method stub
 		return null;
 	}

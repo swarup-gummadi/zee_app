@@ -1,9 +1,13 @@
 package com.zee.zee5app.dto;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Max;
@@ -37,7 +41,7 @@ public class Series implements Comparable<Series> {
 
 	@Setter(value = AccessLevel.NONE)
 	@Id
-	private String id;
+	private String seriesId;
 	@NotBlank
 	
 	@Setter(value = AccessLevel.NONE)
@@ -49,7 +53,7 @@ public class Series implements Comparable<Series> {
 	@NotBlank
 	private String cast;
 	@NotBlank
-	private GENRE genre;
+	private String genre;
 	//private float length;
 	@NotNull
 	private Date releaseDate;
@@ -62,7 +66,10 @@ public class Series implements Comparable<Series> {
 	@Override
 	public int compareTo(Series o) {
 		// TODO Auto-generated method stub
-		return this.id.compareTo(o.getId());
+		return this.seriesId.compareTo(o.getSeriesId());
 	}
+	
+	@OneToMany(mappedBy = "series", cascade = CascadeType.ALL)
+	private List<Episode> episode= new ArrayList<>();
 
 }

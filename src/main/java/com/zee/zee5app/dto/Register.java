@@ -1,21 +1,26 @@
 package com.zee.zee5app.dto;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+//import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.zee.zee5app.exception.InvalidEmailException;
 import com.zee.zee5app.exception.InvalidIdLengthException;
 import com.zee.zee5app.exception.InvalidNameException;
@@ -82,7 +87,7 @@ public class Register implements Comparable<Register> {
 	//@Size(max=10)
 	//@NotNull
 	@Setter(value = AccessLevel.NONE)
-	private BigDecimal contactNumber;
+	private BigInteger contactNumber;
 	
 	
 
@@ -98,7 +103,11 @@ public class Register implements Comparable<Register> {
 //	}
 	
 	@ManyToMany
+	@JsonIgnore
 	@JoinTable(name="user_roles", joinColumns = @JoinColumn(name="regId"), inverseJoinColumns = @JoinColumn(name="roleId"))
 	private Set<Role> roles = new HashSet<>();
+	
+	@OneToOne(mappedBy="register")
+	private Subscription subscription;
 
 }

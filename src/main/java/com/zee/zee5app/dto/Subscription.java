@@ -6,6 +6,9 @@ import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -44,13 +47,13 @@ public class Subscription implements Comparable<Subscription> {
 	private float amount;
 	private String paymentMode;
 	@NotBlank
-	private PLAN_STATUS status;
+	private String status;
 	@NotBlank
-	private PLAN_TYPE type;
+	private String type;
 	@NotBlank
 	private String autoRenewal;
-	@NotBlank
-	private String regId;
+	//@NotBlank
+	
 	
 	
 	@Override
@@ -58,5 +61,8 @@ public class Subscription implements Comparable<Subscription> {
 		// TODO Auto-generated method stub
 		return this.id.compareTo(o.getId());
 	}
-
+	
+	@OneToOne
+	//@JoinColumn(name = "regId")
+	private Register register;
 }

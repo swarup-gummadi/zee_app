@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
@@ -32,10 +33,10 @@ import lombok.ToString;
 public class Movie implements Comparable<Movie>{
 	
 
-	@Setter(value = AccessLevel.NONE)
+	//@Setter(value = AccessLevel.NONE)
 	@Id
 	private String id;
-	@Setter(value = AccessLevel.NONE)
+	//@Setter(value = AccessLevel.NONE)
 	@NotBlank
 	private String name;
 	@NotNull
@@ -44,6 +45,8 @@ public class Movie implements Comparable<Movie>{
 	private String cast;
 	private String genre;
 	//private float length;
+//	@Lob
+//	private byte[] trailer;
 	private String trailer;
 	private Date releaseDate;
 	private String language;

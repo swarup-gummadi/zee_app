@@ -1,8 +1,16 @@
 package com.zee.zee5app.dto;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -41,4 +49,10 @@ public class Login implements Comparable<Login> {
 		return o.username.compareTo(this.getUsername());
 	}
 
+//	@OneToOne(fetch = FetchType.LAZY)
+//	@JsonIgnoreProperties{"hibernateLazyInitializer","handler"}
+//	@JsonSerialize(using = CustomListSerializer.class);
+//	@JoinColumn(name="regId")
+//	@JsonProperty(access = Acess.WRITE_ONLY) //off
+//	private Register register;
 }

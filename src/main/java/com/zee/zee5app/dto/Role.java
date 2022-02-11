@@ -18,15 +18,12 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Role {
 	
-	@Id //Id must be auto generated
+	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int roleId;
-	
-	//it should be the value from available Enums
 	
 	@Enumerated(EnumType.STRING)
 	@Column(length = 30)
 	private EROLE roleName;
-	
-	
+
 }

@@ -20,7 +20,7 @@ import com.zee.zee5app.dto.Episode;
 import com.zee.zee5app.dto.Movie;
 import com.zee.zee5app.dto.PLAN_STATUS;
 import com.zee.zee5app.dto.PLAN_TYPE;
-import com.zee.zee5app.dto.Register;
+import com.zee.zee5app.dto.User;
 import com.zee.zee5app.dto.Role;
 import com.zee.zee5app.dto.Series;
 import com.zee.zee5app.dto.Subscription;
@@ -37,7 +37,7 @@ import com.zee.zee5app.service.MovieService;
 import com.zee.zee5app.service.RoleService;
 import com.zee.zee5app.service.SubscriptionService;
 import com.zee.zee5app.service.UserService;
-import com.zee.zee5app.service.seriesService;
+import com.zee.zee5app.service.SeriesService;
 
 @SpringBootApplication
 public class Main1 {

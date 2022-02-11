@@ -5,8 +5,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 public class ErrorAdvice extends ResponseEntityExceptionHandler {
 
-	@Override
-	protected ResponseEntity<Object> handleMethodArgumentNotValid(){
-		
-	}
+//	@Override
+//	protected ResponseEntity<Object> method
+//	}
 }

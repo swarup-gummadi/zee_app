@@ -12,33 +12,39 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
+@ToString
 
 @Entity
 @Table(name = "login")
-public class Login {
+public class Login implements Comparable<Login> {
 	
-	@Setter(value = AccessLevel.NONE)
-	@NotBlank
 	@Id
 	private String email;
-	
-	@Setter(value = AccessLevel.NONE)
 	@NotBlank
 	private String password;
+	
+	@Override
+	public int compareTo(Login o) {
+		// TODO Auto-generated method stub
+		return this.email.compareTo(o.getEmail());
+	}
 	
 	@OneToOne(fetch = FetchType.LAZY)
 	@JsonIgnoreProperties(value = {"hibernateLazyInitializer","handler"})
     @JoinColumn(name = "regId")
     @JsonProperty(access = Access.WRITE_ONLY)
-	private Register register;
+	private User user;
+
 }

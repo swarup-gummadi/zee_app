@@ -8,4 +8,5 @@ import com.learning.dto.Login;
 @Repository
 public interface LoginRepository extends JpaRepository<Login, String> {
 
+	boolean existsByEmailAndPassword(String email, String password);
 }

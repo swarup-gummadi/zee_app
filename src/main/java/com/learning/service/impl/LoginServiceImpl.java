@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.learning.dto.Login;
-import com.learning.dto.Register;
+import com.learning.dto.User;
 import com.learning.exception.IdNotFoundException;
 import com.learning.repo.LoginRepository;
 import com.learning.service.LoginService;
@@ -17,55 +17,61 @@ public class LoginServiceImpl implements LoginService {
 	@Autowired
 	private LoginRepository loginRepository;
 	
+	//Insert a new record in the table
 	@Override
 	public String addCredentials(Login login) {
 		// TODO Auto-generated method stub
 		Login login2 = loginRepository.save(login);
-		if(login2!=null) {
+		if (login2 != null) {
 			return "success";
-		}
-		else {
+		} else {
 			return "fail";
 		}
 	}
-
+    
+	//Delete the record by id
 	@Override
 	public String deleteCredentials(String email) {
 		// TODO Auto-generated method stub
+		Optional<Login> optional;
 		try {
-			Optional<Login> optional = loginRepository.findById(email);
+			optional = loginRepository.findById(email);
 			if(optional.isEmpty()) {
-				throw new IdNotFoundException("User credentials not found");
+				throw new IdNotFoundException("record not found");
 			}
 			else {
 				loginRepository.deleteById(email);
-				return "successfully deleted user credentials";
+				return "login record deleted";
 			}
 		} catch (IdNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			//throw new IdNotFoundException(e.getMessage());
+			return "fail";
 		}
-		return null;
 	}
-
+    
+	//Updating the existing record
 	@Override
-	public String changePassword(String email, String password) {
+	public String changePassword(String email, String password) throws IdNotFoundException {
 		// TODO Auto-generated method stub
-		return null;
+		Optional<Login> login = this.loginRepository.findById(email);
+		if(login.isEmpty())
+			throw new IdNotFoundException("invalid id");
+		login.get().setPassword(password);
+		return (this.loginRepository.save(login.get())!= null) ? "success":"fail";
 	}
 
 	@Override
 	public String vaidateCredentials(Login login) {
 		// TODO Auto-generated method stub
 		Login login2 = new Login();
-		Register register2 = new Register();
+		User register2 = new User();
 		
 		if(login.getEmail()==register2.getEmail() && login.getPassword()==register2.getPassword()) {
-			return "successfully validated";
+			return "success";
 		}
 		else
-			return "failed";
+			return "fail";
 	}
 
 }

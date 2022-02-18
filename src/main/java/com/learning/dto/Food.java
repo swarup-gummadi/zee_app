@@ -1,55 +1,62 @@
 package com.learning.dto;
 
-import javax.persistence.Column;
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import lombok.AccessLevel;
+//import org.hibernate.annotations.ManyToAny;
+
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
 @ToString
+
 @Entity
 @Table(name = "food")
-public class Food {
+public class Food implements Comparable<Food> {
 	
-	@Setter(value = AccessLevel.NONE)
 	@Id
-	@Column(name = "foodId")
-	@GeneratedValue(strategy= GenerationType.AUTO)
-	private int id;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long foodId;
 	
-	@Setter(value = AccessLevel.NONE)
-	@NotBlank
 	@Size(max=50)
-	private String name;
+	@NotBlank
+	private String foodName;
 	
-	@Setter(value = AccessLevel.NONE)
-	@NotNull
-	//@Size(max=50)
-	private int cost;
-	
-	@Setter(value = AccessLevel.NONE)
-	@NotNull
-	@Enumerated(EnumType.STRING)
-	private FOOD_TYPE type;
-	
-	@Setter(value = AccessLevel.NONE)
-	@Size(max=100)
 	private String description;
+	private String foodPic;
+	private float foodCost;
+
+	@Override
+	public int compareTo(Food o) {
+		// TODO Auto-generated method stub
+		return this.foodId.compareTo(o.getFoodId());
+	}
 	
-	@Setter(value = AccessLevel.NONE)
-	@Size(max=100)
-	private String pic;
+	@ManyToMany
+	@JoinTable(name = "food_types", joinColumns = @JoinColumn(name = "foodId"), 
+			inverseJoinColumns = @JoinColumn(name = "foodTypeId"))
+	private Set<FoodType> foodTypes = new HashSet<>();
+	
+	
+
 }

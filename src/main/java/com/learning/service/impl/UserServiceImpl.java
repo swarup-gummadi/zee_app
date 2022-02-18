@@ -7,83 +7,94 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.learning.dto.Login;
-import com.learning.dto.Register;
+import com.learning.dto.User;
 import com.learning.exception.AlreadyExistsException;
 import com.learning.exception.IdNotFoundException;
+import com.learning.repo.LoginRepository;
 import com.learning.repo.UserRepository;
 import com.learning.service.LoginService;
 import com.learning.service.UserService;
 
-
 @Service
 public class UserServiceImpl implements UserService {
-
-	@Autowired
-	private UserRepository userRepository;
+	
 	
 	@Autowired
-	private LoginService loginService;
+	UserRepository userRepository;
 	
+	@Autowired
+	LoginService loginService;
+	
+	@Autowired
+	LoginRepository loginRepository;
+    
+	//Insert a new record in the table
 	@Override
-	public Register addUser(Register register) throws AlreadyExistsException {
+	@org.springframework.transaction.annotation.Transactional(rollbackFor = AlreadyExistsException.class)
+	public User addUser(User register) throws AlreadyExistsException {
 		// TODO Auto-generated method stub
-		if (userRepository.existsByEmail(register.getEmail())==true) {
-			throw new AlreadyExistsException("Already existing record");
+		boolean status = userRepository.existsByEmail(register.getEmail()) ;
+		if(status) {
+			throw new AlreadyExistsException("this record already exists");
 		}
-		
-		Register register2 = userRepository.save(register);
-		System.out.println(register2);
-		System.out.println("test");
-		if (register2!=null) {
-			System.out.println("Success");
-			Login login = new Login(register.getEmail(), register.getPassword(), register2);
-			String res = loginService.addCredentials(login);
-			if(res!="success") {
-			return null;
+		User register2 = userRepository.save(register);
+		if (register2 != null) {
+			Login login = new Login(register.getEmail(), register.getPassword(),register2);
+			if(loginRepository.existsByEmailAndPassword(register.getEmail(), register.getPassword())) {
+				throw new AlreadyExistsException("this record already exists");
 			}
-			else {
+			String result = loginService.addCredentials(login);
+			if(result == "success") {
+					//return "record added in register and login";
 				return register2;
 			}
-		}
-		else {
+			else {
 				return null;
+			}
+		}	
+		else {
+			return null;
 		}
 	}
-
+    
+	//Updating the existing record
 	@Override
-	public Register updateUser(int id, Register register) throws IdNotFoundException {
+	public User updateUser(Long id, User register) throws IdNotFoundException {
 		// TODO Auto-generated method stub
 		if(!this.userRepository.existsById(id))
-			throw new IdNotFoundException("Sorry user with ID:" + register.getId() + " not found");
+			throw new IdNotFoundException("Sorry user with " + register.getId() + " not found");
 		
 		return userRepository.save(register);
 	}
-
+    
+	//retrive a record by id
 	@Override
-	public Register getUserById(int id) throws IdNotFoundException {
+	public User getUserById(Long id) throws IdNotFoundException {
 		// TODO Auto-generated method stub
-		Optional<Register> optional = userRepository.findById(id);
-		if (optional.isEmpty()) {
-			throw new IdNotFoundException("Id not found");
+		User register = new User();
+		Optional<User> optional =  userRepository.findById(id);
+		if(optional.isEmpty()) {
+			throw new IdNotFoundException("Sorry user with " + register.getId() + " not found");
 		}
 		else {
 			return optional.get();
 		}
 	}
-
+    
+	//Delete the record by id
 	@Override
-	public String deleteUserById(int id) throws IdNotFoundException {
+	public String deleteUserById(Long id) throws IdNotFoundException {
 		// TODO Auto-generated method stub
+		User optional;
+		User register = new User();
 		try {
-			Optional<Register> optional = Optional.ofNullable(this.getUserById(id));
-			if(optional.isEmpty()) {
-				throw new IdNotFoundException("User not found");
+			optional = this.getUserById(id);
+			if(optional==null) {
+				throw new IdNotFoundException("Sorry user with " + register.getId() + " not found");
 			}
 			else {
 				userRepository.deleteById(id);
-				loginService.deleteCredentials(optional.get().getEmail());
-				System.out.println("deleted");
-				return "successfully deleted user";
+				return "User deleted successfully";
 			}
 		} catch (IdNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -91,9 +102,10 @@ public class UserServiceImpl implements UserService {
 			throw new IdNotFoundException(e.getMessage());
 		}
 	}
-
+    
+	//Retrieve all details
 	@Override
-	public Optional<List<Register>> getAllUserDetails() {
+	public Optional<List<User>> getAllUserDetails() {
 		// TODO Auto-generated method stub
 		return Optional.ofNullable(userRepository.findAll());
 	}
